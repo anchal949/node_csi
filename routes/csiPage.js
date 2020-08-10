@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router(); //routing
 const User = require('../models/user');
+const Cine=require("../models/cine");
 var bodyparser=require("body-parser");
 router.use(bodyparser.urlencoded({extended:true}));
 
@@ -23,10 +24,27 @@ router.get("/index",(req,res,next)=>{
 
 //cine_event
 router.get("/index/cine",(req,res)=>{
-    res.render("events/cine");
+   
+    res.redirect("/index/cine/register");
 });
 router.get("/cinecsi",(req,res)=>{
-    res.redirect("/index/cine");
+    res.redirect("/index/cine/register");
+});
+// cine registration
+router.get("/index/cine/register",(req,res)=>{
+
+    res.render("events/register");
+});
+router.post("/index/cine/register",(req,res)=>{
+    
+    Cine.create(req.body.cine,function(err,data){
+         if(err){
+             console.log(err);
+         }
+         else{
+            res.render("events/doneregister")
+         }
+    })
 });
 
 //@The_Initiative
